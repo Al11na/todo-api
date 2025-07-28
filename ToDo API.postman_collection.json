@@ -1,0 +1,1113 @@
+{
+	"info": {
+		"_postman_id": "47cf90b8-1140-49d0-ac02-ac84ac404d10",
+		"name": "ToDo API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44970380",
+		"_collection_link": "https://alina-9070932.postman.co/workspace/Alina's-Workspace~2172238a-4fa8-4ff8-8a51-46ae8fad2360/collection/44970380-47cf90b8-1140-49d0-ac02-ac84ac404d10?action=share&source=collection_link&creator=44970380"
+	},
+	"item": [
+		{
+			"name": "token",
+			"item": [
+				{
+					"name": "refresh",
+					"item": [
+						{
+							"name": "token refresh create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Refresh request is successful\", () => {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"let refBody = pm.response.json();\r",
+											"pm.test(\"New access token exists\", () => {\r",
+											"  pm.expect(refBody).to.have.property(\"access\");\r",
+											"});\r",
+											"if (refBody.access) {\r",
+											"  pm.environment.set(\"jwt_token\", refBody.access);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"refresh\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/token/refresh/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"token",
+										"refresh",
+										""
+									]
+								},
+								"description": "Takes a refresh type JSON web token and returns an access type JSON web\ntoken if the refresh token is valid."
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"refresh\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/token/refresh/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"token",
+												"refresh",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"refresh\": \"string\",\n  \"access\": \"string\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "User Registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Registration successful\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"let regBody = pm.response.json();\r",
+									"pm.test(\"Username returned\", () => {\r",
+									"  pm.expect(regBody).to.have.property(\"username\");\r",
+									"});\r",
+									"pm.test(\"Email returned\", () => {\r",
+									"  pm.expect(regBody).to.have.property(\"email\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"new_user\",\r\n  \"email\": \"new@example.com\",\r\n  \"password\": \"пароль123\",\r\n  \"password2\": \"пароль123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "token create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Token request is successful\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let body = pm.response.json();\r",
+									"pm.test(\"Response has access token\", () => {\r",
+									"  pm.expect(body).to.have.property('access');\r",
+									"});\r",
+									"if (body.access) {\r",
+									"  pm.environment.set(\"jwt_token\", body.access);\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"user\",\n  \"password\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/token/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"token",
+								""
+							]
+						},
+						"description": "Takes a set of user credentials and returns an access and refresh JSON web\ntoken pair to prove the authentication of those credentials."
+					},
+					"response": [
+						{
+							"name": "Untitled Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Basic <credentials>",
+										"description": "Added as a part of security scheme: basic"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"string\",\n  \"password\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/token/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"token",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"username\": \"string\",\n  \"password\": \"string\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "tasks read",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get task returns 200\", () => {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"let task = pm.response.json();\r",
+											"pm.test(\"Task has id\", () => {\r",
+											"  pm.expect(task).to.have.property(\"id\");\r",
+											"});\r",
+											"pm.test(\"Task has title\", () => {\r",
+											"  pm.expect(task).to.have.property(\"title\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/tasks/:id/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tasks",
+										":id",
+										""
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9252",
+											"description": "(Required) A unique integer value identifying this task."
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/tasks/:id/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tasks",
+												":id",
+												""
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"title\": \"string\",\n  \"id\": 7482,\n  \"description\": \"string\",\n  \"created_at\": \"1984-12-31T11:44:36.770Z\",\n  \"completed\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "tasks update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Full update returns 200\", () => {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"let updated = pm.response.json();\r",
+											"pm.test(\"Updated task has new data\", () => {\r",
+											"  pm.expect(updated).to.have.property(\"title\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"completed\": false\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tasks/:id/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tasks",
+										":id",
+										""
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9252",
+											"description": "(Required) A unique integer value identifying this task."
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"completed\": false\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/tasks/:id/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tasks",
+												":id",
+												""
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"title\": \"string\",\n  \"id\": 7482,\n  \"description\": \"string\",\n  \"created_at\": \"1984-12-31T11:44:36.770Z\",\n  \"completed\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "tasks partial update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Partial update returns 200\", () => {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"let patchRes = pm.response.json();\r",
+											"pm.test(\"Completed field updated\", () => {\r",
+											"  pm.expect(patchRes).to.have.property(\"completed\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"completed\": false\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tasks/:id/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tasks",
+										":id",
+										""
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9252",
+											"description": "(Required) A unique integer value identifying this task."
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"completed\": false\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/tasks/:id/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tasks",
+												":id",
+												""
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"title\": \"string\",\n  \"id\": 7482,\n  \"description\": \"string\",\n  \"created_at\": \"1984-12-31T11:44:36.770Z\",\n  \"completed\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "tasks delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Delete returns 204\", () => {\r",
+											"  pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/tasks/:id/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tasks",
+										":id",
+										""
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9252",
+											"description": "(Required) A unique integer value identifying this task."
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/tasks/:id/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tasks",
+												":id",
+												""
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{jwt_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "tasks list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// tasks list → Tests\r",
+									"pm.test(\"List tasks returns 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response is array\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an('array');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/tasks/?search=string&page=9252",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "string",
+									"description": "A search term."
+								},
+								{
+									"key": "page",
+									"value": "9252",
+									"description": "A page number within the paginated result set."
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Untitled Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Basic <credentials>",
+										"description": "Added as a part of security scheme: basic"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/tasks/?search=string&page=9252",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tasks",
+										""
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "string",
+											"description": "A search term."
+										},
+										{
+											"key": "page",
+											"value": "9252",
+											"description": "A page number within the paginated result set."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"count\": 4344,\n  \"results\": [\n    {\n      \"title\": \"string\",\n      \"id\": 8643,\n      \"description\": \"string\",\n      \"created_at\": \"1980-07-16T14:04:59.339Z\",\n      \"completed\": false\n    },\n    {\n      \"title\": \"string\",\n      \"id\": 6829,\n      \"description\": \"string\",\n      \"created_at\": \"1976-08-28T21:39:07.163Z\",\n      \"completed\": true\n    }\n  ],\n  \"next\": \"http://d.tvhDB76qbCUminb+bpDZbvLi5Bk1COLHwbRRknwGXDAIhCUE98i3GYztVYPLpnETYVtFgTGYq9XZ.H\",\n  \"previous\": \"https://ygylWFbdFBngCDgsx.thNJBUmhikG7TbKHhozUMYRtlNSn3jKznVwzTl29+mf\"\n}"
+						}
+					]
+				},
+				{
+					"name": "tasks create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Task creation successful\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"let newTask = pm.response.json();\r",
+									"pm.test(\"New task has id\", () => {\r",
+									"  pm.expect(newTask).to.have.property(\"id\");\r",
+									"});\r",
+									"pm.test(\"New task completed is boolean\", () => {\r",
+									"  pm.expect(newTask.completed).to.be.a(\"boolean\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"купить хлеб\",\n  \"description\": \"в пекарне на углу\",\n  \"completed\": false\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Untitled Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Basic <credentials>",
+										"description": "Added as a part of security scheme: basic"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"completed\": false\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tasks/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tasks",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"title\": \"string\",\n  \"id\": 7482,\n  \"description\": \"string\",\n  \"created_at\": \"1984-12-31T11:44:36.770Z\",\n  \"completed\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "Filter / Search Tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Filter/Search returns 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response is an array\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tasks/?completed=false&search=string",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								""
+							],
+							"query": [
+								{
+									"key": "completed",
+									"value": "false",
+									"description": "Фильтрация по статусу выполнения"
+								},
+								{
+									"key": "search",
+									"value": "string",
+									"description": "Поиск по заголовку и описанию задачи"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwt_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "{{basicAuthUsername}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{basicAuthPassword}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000/api"
+		}
+	]
+}
